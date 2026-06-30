@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>TIC-TAC-TOE PRO | Futuristic Edition</title>
+  <meta name="description"
+    content="A premium futuristic Tic-Tac-Toe Web Application with Dark Glassmorphism, Cyberpunk Theme, and Neon Glow.">
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&family=Orbitron:wght@400;700;900&display=swap"
+    rel="stylesheet">
+
+  <!-- CSS -->
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+  <!-- Background Effects -->
+  <div class="bg-particles" id="particles"></div>
+  <div class="bg-gradient"></div>
+
+  <!-- Navigation Bar -->
+  <nav class="top-nav">
+    <div class="logo">
+      <h1>TIC-TAC-TOE <span class="neon-text">PRO</span></h1>
+    </div>
+    <ul class="menu" role="menu">
+      <li><a href="#" class="active">Home</a></li>
+      <li><a href="#game-section">Game</a></li>
+      <li><a href="#scoreboard-section">Scoreboard</a></li>
+      <li><a href="#" id="history-btn">History</a></li>
+      <li><a href="#" id="settings-btn">Settings</a></li>
+    </ul>
+    <div class="nav-right">
+      <button id="fullscreen-toggle" class="icon-btn" aria-label="Toggle Fullscreen" title="Fullscreen">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+          stroke-linejoin="round">
+          <path d="M8 3H5a2 2 0 0 0-2 2v3m18 0V5a2 2 0 0 0-2-2h-3m0 18h3a2 2 0 0 0 2-2v-3M3 16v3a2 2 0 0 0 2 2h3">
+          </path>
+        </svg>
+      </button>
+      <button id="theme-toggle" class="icon-btn" aria-label="Toggle Light/Dark Mode" title="Toggle Theme">
+        <svg class="sun-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+          stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="12" cy="12" r="5"></circle>
+          <line x1="12" y1="1" x2="12" y2="3"></line>
+          <line x1="12" y1="21" x2="12" y2="23"></line>
+          <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+          <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+          <line x1="1" y1="12" x2="3" y2="12"></line>
+          <line x1="21" y1="12" x2="23" y2="12"></line>
+          <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+          <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+        </svg>
+        <svg class="moon-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+          stroke-linecap="round" stroke-linejoin="round">
+          <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+        </svg>
+      </button>
+    </div>
+  </nav>
+
+  <!-- Main Container -->
+  <main class="container">
+
+    <!-- Header Info (Timer, Turn, Moves) -->
+    <header class="game-header">
+      <div class="stats-panel glass-panel">
+        <div class="stat-item" title="Game Timer">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="12" cy="12" r="10"></circle>
+            <polyline points="12 6 12 12 16 14"></polyline>
+          </svg>
+          <span id="game-timer">00:00</span>
+        </div>
+        <div class="stat-item" title="Moves Made">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <polyline points="22 12 18 12 15 21 9 3 6 12 2 12"></polyline>
+          </svg>
+          <span id="move-counter">0</span>
+        </div>
+      </div>
+
+      <div class="turn-indicator glass-panel" id="turn-indicator">
+        Current Turn: <span id="current-player" class="player-x-glow">Player X</span>
+        <div id="thinking-indicator" class="thinking-spinner" style="display: none;"></div>
+      </div>
+
+      <div class="sound-toggle glass-panel">
+        <button id="sound-btn" class="icon-btn" aria-label="Toggle Sound" title="Toggle Sound">
+          <svg class="sound-on" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+            <path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"></path>
+          </svg>
+          <svg class="sound-off" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+            style="display:none">
+            <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+            <line x1="23" y1="9" x2="17" y2="15"></line>
+            <line x1="17" y1="9" x2="23" y2="15"></line>
+          </svg>
+        </button>
+      </div>
+    </header>
+
+    <!-- Game Section -->
+    <section id="game-section" class="game-section">
+      <div class="board-container glass-panel">
+        <div class="game-board" id="board" role="grid" aria-label="Tic-Tac-Toe Board">
+          <!-- Cells generated dynamically -->
+        </div>
+
+        <!-- Pause Overlay -->
+        <div id="pause-overlay" class="pause-overlay" style="display: none;">
+          <h2 class="neon-cyan">PAUSED</h2>
+          <p>The game timer is stopped.</p>
+          <button id="resume-btn" class="btn btn-green glass-panel">Resume Game</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- Scoreboard Section -->
+    <section id="scoreboard-section" class="scoreboard-section">
+      <div class="score-card glass-panel player-x-card">
+        <h3 id="label-player-x">Player X</h3>
+        <div class="score-value neon-pink" id="score-x">0</div>
+      </div>
+      <div class="score-card glass-panel draws-card">
+        <h3>Draws</h3>
+        <div class="score-value neon-purple" id="score-draws">0</div>
+      </div>
+      <div class="score-card glass-panel player-o-card">
+        <h3 id="label-player-o">Player O</h3>
+        <div class="score-value neon-cyan" id="score-o">0</div>
+      </div>
+    </section>
+
+    <!-- Settings / Controls Section -->
+    <section id="controls-section" class="controls-section">
+      <button id="pause-btn" class="btn btn-purple glass-panel">Pause Game</button>
+      <button id="undo-btn" class="btn btn-purple glass-panel" disabled>Undo Move</button>
+      <button id="new-game-btn" class="btn btn-green glass-panel">New Game</button>
+      <button id="restart-btn" class="btn btn-blue glass-panel">Restart</button>
+      <button id="reset-score-btn" class="btn btn-red glass-panel">Reset Scores</button>
+    </section>
+
+  </main>
+
+  <!-- Modals -->
+  <!-- Settings Modal -->
+  <div class="modal-overlay" id="settings-modal" aria-hidden="true">
+    <div class="modal-content glass-panel form-modal">
+      <h2 class="neon-text">Game Settings</h2>
+      <div class="settings-form">
+
+        <div class="form-group">
+          <label>Game Mode:</label>
+          <select id="setting-game-mode" class="glass-input">
+            <option value="pvp">Player vs Player</option>
+            <option value="pvc">Player vs Computer</option>
+          </select>
+        </div>
+
+        <div class="form-group" id="difficulty-group" style="display: none;">
+          <label>Robot Difficulty:</label>
+          <select id="setting-difficulty" class="glass-input">
+            <option value="easy">Easy</option>
+            <option value="medium">Medium</option>
+            <option value="hard">Hard</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label>Board Size:</label>
+          <select id="setting-board-size" class="glass-input">
+            <option value="3">3 × 3</option>
+            <option value="4">4 × 4</option>
+            <option value="5">5 × 5</option>
+            <option value="6">6 × 6</option>
+            <option value="7">7 × 7</option>
+            <option value="8">8 × 8</option>
+            <option value="9">9 × 9</option>
+            <option value="10">10 × 10</option>
+          </select>
+        </div>
+
+        <div class="form-group" id="p1-name-group">
+          <label id="label-p1-input">Player 1 (X) Name:</label>
+          <input type="text" id="setting-player1-name" value="Player X" class="glass-input">
+        </div>
+
+        <div class="form-group" id="p2-name-group">
+          <label>Player 2 (O) Name:</label>
+          <input type="text" id="setting-player2-name" value="Player O" class="glass-input">
+        </div>
+
+      </div>
+      <div class="modal-actions">
+        <button class="btn btn-green glass-panel" id="save-settings-btn">Save & Start</button>
+        <button class="btn btn-red glass-panel" id="close-settings-btn">Cancel</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- History Modal -->
+  <div class="modal-overlay" id="history-modal" aria-hidden="true">
+    <div class="modal-content glass-panel history-modal-content">
+      <h2 class="neon-purple">Game History</h2>
+      <div class="history-table-container">
+        <table class="history-table">
+          <thead>
+            <tr>
+              <th>#</th>
+              <th>Winner</th>
+              <th>Mode</th>
+              <th>Board</th>
+              <th>Duration</th>
+              <th>Date</th>
+            </tr>
+          </thead>
+          <tbody id="history-tbody">
+            <!-- Dynamic History -->
+          </tbody>
+        </table>
+      </div>
+      <div class="modal-actions">
+        <button class="btn btn-blue glass-panel" id="close-history-btn">Close</button>
+        <button class="btn btn-red glass-panel" id="clear-history-btn">Clear History</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal-overlay" id="result-modal" aria-hidden="true">
+    <div class="modal-content glass-panel">
+      <h2 id="result-message" class="neon-text">🎉 Player X Wins!</h2>
+      <div class="modal-actions">
+        <button class="btn btn-green glass-panel" id="modal-new-game-btn">Play Again</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal-overlay" id="confirm-modal" aria-hidden="true">
+    <div class="modal-content glass-panel">
+      <h2>Are you sure?</h2>
+      <p>This will permanently delete the saved scores and history.</p>
+      <div class="modal-actions">
+        <button class="btn btn-red glass-panel" id="confirm-reset-btn">Yes, Reset</button>
+        <button class="btn btn-blue glass-panel" id="cancel-reset-btn">Cancel</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Scripts -->
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+  <script src="script.js"></script>
+</body>
+
+</html>
